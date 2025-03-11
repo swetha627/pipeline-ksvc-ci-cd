@@ -1,0 +1,27 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: sample-test
+  namespace: mlservice-workloads
+  annotations:
+    networking.knative.dev/http-protocol: "redirected"
+spec:
+  template:
+    metadata:
+    spec:
+      containerConcurrency: 0
+      containers:
+      - image: hashicorp/http-echo
+        args:
+        - -text="hi from knative dns"
+        name: user-container
+        ports:
+        - containerPort: 5678
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi
+
